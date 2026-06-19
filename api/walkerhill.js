@@ -1,5 +1,14 @@
 export default async function handler(req, res) {
-  // 2단계에서 Vercel 대시보드에 등록할 워커힐 방 전용 두레이 주소입니다.
+  // 대한민국 시간(KST) 기준으로 현재 요일 확인 (0: 일요일, 6: 토요일)
+  const currentKstDate = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+  const dayOfWeek = currentKstDate.getDay();
+
+  // 1일이 토요일(6)이거나 일요일(0)이면 두레이 메시지를 보내지 않고 즉시 종료합니다.
+  if (dayOfWeek === 0 || dayOfWeek === 6) {
+    return res.status(200).json({ success: true, message: '주말(토/일)이므로 알림을 건너뜁니다.' });
+  }
+
+  // 평일일 때만 아래 로직이 실행됩니다.
   const WEBHOOK_URL = process.env.WALKERHILL_DOORAY_WEBHOOK_URL;
 
   const messagePayload = {
