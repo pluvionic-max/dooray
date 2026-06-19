@@ -3,6 +3,10 @@
     {
       "path": "/api/send",
       "schedule": "0 6 * * 1-5"
+    },
+    { 
+      "path": "/api/walkerhill", 
+      "schedule": "0 1 1 * *" 
     }
   ]
 }
